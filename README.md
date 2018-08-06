@@ -10,12 +10,30 @@ This repo serves as a proxy for oAuth 1.0a requests. It uses AWS Lambdas to sign
 2. Clone git repo: `git clone https://github.com/sourceallies/sai-find-things-auth`
 3. cd to the git repository
 4. `npm install`
-5. Create a .env file based on .env.example
+
+## Environment Configuration
+
+Set up environment variables for deployment:
+
+- For local deployments, create an .env file based on .env.example
+- For deployment via CI server, add environment variables to your CI configuration
+
+See [Environment Configuration](https://github.com/sourceallies/OAuth-1.0A-Lambda-API/wiki/Environment-Configuration) for more details.
 
 ## Deploy Steps
 
-1. `./build/build.sh` to webpack the project
-2. `./deploy/deploy.sh` to deploy the Lambdas
+The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
+
+1. Run `./build/build.sh`
+  - Installs dependencies
+  - Runs tests
+  - webpacks the project
+2. Create a `.zip` file containing the project code
+3. Run `./deploy/deploy.sh`
+  - Remove the old S3 bucket
+  - Create a new S3 bucket
+  - Add the zipped code to the S3 bucket
+  - Create the lambdas
 
 ## Endpoints
 
