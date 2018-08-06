@@ -1,0 +1,185 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Transform": "AWS::Serverless-2016-10-31",
+    "Parameters": {
+            "CLIENTKEY" : {
+                "Type" : "String"
+            },
+            "CLIENTSECRET" : {
+                "Type" : "String"
+            },
+            "BucketName" : {
+                "Type" : "String"
+            }
+    },
+    "Resources" : {
+        "OAuthFirstLegLambda": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+                "CodeUri": {
+                    "Bucket" : {
+                        "Ref" : "BucketName"
+                    },
+                    "Key": "artifact.zip"
+                },
+                "Description": "OAuth First Leg Lambda Function",
+                "FunctionName": "oauth-first-leg",
+                "Handler": "index.firstLegHandler",
+                "Role": {
+                    "Fn::Sub" : "arn:aws:iam::${AWS::AccountId}:role/basic-lambda-execution-role"
+                },
+                "Policies": [ "AWSLambdaFullAccess" ],
+                "Runtime": "nodejs8.10",
+                "Timeout": 3,
+                "MemorySize": 256,
+                "Events": {
+                    "PostResource":{
+                        "Type" : "Api",
+                        "Properties" : {
+                            "Path" : "/firstLegAuth",
+                            "Method" : "post"
+                        }
+                    }
+                },
+                "Environment" : {
+                    "Variables" : {
+                        "CLIENT_KEY" : {
+                            "Ref" : "CLIENTKEY"
+                        },
+                        "CLIENT_SECRET" : {
+                            "Ref" : "CLIENTSECRET"
+                        }
+                    }
+                }
+            }
+        },
+        "OAuthThirdLegLambda": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+                "CodeUri": {
+                    "Bucket" : {
+                        "Ref" : "BucketName"
+                    },
+                    "Key": "artifact.zip"
+                },
+                "Description": "OAuth Third Leg Lambda Function",
+                "FunctionName": "oauth-third-leg",
+                "Handler": "index.thirdLegHandler",
+                "Role": {
+                    "Fn::Sub" : "arn:aws:iam::${AWS::AccountId}:role/basic-lambda-execution-role"
+                },
+                "Policies": [ "AWSLambdaFullAccess" ],
+                "Runtime": "nodejs8.10",
+                "Timeout": 3,
+                "MemorySize": 256,
+                "Events": {
+                    "PostResource":{
+                        "Type" : "Api",
+                        "Properties" : {
+                            "Path" : "/thirdLegAuth",
+                            "Method" : "post"
+                        }
+                    }
+                },
+                "Environment" : {
+                    "Variables" : {
+                        "CLIENT_KEY" : {
+                            "Ref" : "CLIENTKEY"
+                        },
+                        "CLIENT_SECRET" : {
+                            "Ref" : "CLIENTSECRET"
+                        }
+                    }
+                }
+            }
+        },
+        "OAuthSignRequestPostLambda": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+                "CodeUri": {
+                    "Bucket" : {
+                        "Ref" : "BucketName"
+                    },
+                    "Key": "artifact.zip"
+                },
+                "Description": "OAuth Sign Request Post Lambda Function",
+                "FunctionName": "oauth-sign-request-post",
+                "Handler": "index.oAuthSignRequestPost",
+                "Role": {
+                    "Fn::Sub" : "arn:aws:iam::${AWS::AccountId}:role/basic-lambda-execution-role"
+                },
+                "Policies": [ "AWSLambdaFullAccess" ],
+                "Runtime": "nodejs8.10",
+                "Timeout": 3,
+                "MemorySize": 256,
+                "Events": {
+                    "PostResource":{
+                        "Type" : "Api",
+                        "Properties" : {
+                            "Path" : "/oAuthSignRequest",
+                            "Method" : "post"
+                        }
+                    }
+                },
+                "Environment" : {
+                    "Variables" : {
+                        "CLIENT_KEY" : {
+                            "Ref" : "CLIENTKEY"
+                        },
+                        "CLIENT_SECRET" : {
+                            "Ref" : "CLIENTSECRET"
+                        }
+                    }
+                }
+            }
+        },
+        "OAuthSignRequestGetLambda": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+                "CodeUri": {
+                    "Bucket" : {
+                        "Ref" : "BucketName"
+                    },
+                    "Key": "artifact.zip"
+                },
+                "Description": "OAuth Sign Request Get Lambda Function",
+                "FunctionName": "oauth-sign-request-get",
+                "Handler": "index.oAuthSignRequestGet",
+                "Role": {
+                    "Fn::Sub" : "arn:aws:iam::${AWS::AccountId}:role/basic-lambda-execution-role"
+                },
+                "Policies": [ "AWSLambdaFullAccess" ],
+                "Runtime": "nodejs8.10",
+                "Timeout": 3,
+                "MemorySize": 256,
+                "Events": {
+                    "GetResource":{
+                        "Type" : "Api",
+                        "Properties" : {
+                            "Path" : "/oAuthSignRequest",
+                            "Method" : "get"
+                        }
+                    }
+                },
+                "Environment" : {
+                    "Variables" : {
+                        "CLIENT_KEY" : {
+                            "Ref" : "CLIENTKEY"
+                        },
+                        "CLIENT_SECRET" : {
+                            "Ref" : "CLIENTSECRET"
+                        }
+                    }
+                }
+            }
+          },
+    },
+    "Outputs" : {
+        "ApiURL" : {
+            "Description" : "API endpoint for the lambdas",
+            "Value" : {
+                "Fn::Sub" : "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+            }
+        }
+    }
+}

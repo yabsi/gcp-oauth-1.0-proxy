@@ -1,0 +1,29 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "jest/globals": true,
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+        "chance": false,
+        "global": false
+    },
+    "extends": "airbnb",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "jest"
+    ],
+    "rules": {
+      "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+      "import/no-cycle": "off",
+      "react/prop-types": "off"
+    }
+}
