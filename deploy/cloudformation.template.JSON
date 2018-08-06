@@ -2,15 +2,24 @@
     "AWSTemplateFormatVersion" : "2010-09-09",
     "Transform": "AWS::Serverless-2016-10-31",
     "Parameters": {
-            "CLIENTKEY" : {
-                "Type" : "String"
-            },
-            "CLIENTSECRET" : {
-                "Type" : "String"
-            },
-            "BucketName" : {
-                "Type" : "String"
-            }
+        "ClientKey" : {
+            "Type" : "String"
+        },
+        "ClientSecret" : {
+            "Type" : "String"
+        },
+        "BucketName" : {
+            "Type" : "String"
+        },
+        "ApiUrl": {
+            "Type": "String"
+        },
+        "OAuthCustomHeaders": {
+            "Type": "String"
+        },
+        "AuthorizeCallbackUri": {
+            "Type": "String"
+        }
     },
     "Resources" : {
         "OAuthFirstLegLambda": {
@@ -44,10 +53,19 @@
                 "Environment" : {
                     "Variables" : {
                         "CLIENT_KEY" : {
-                            "Ref" : "CLIENTKEY"
+                            "Ref" : "ClientKey"
                         },
                         "CLIENT_SECRET" : {
-                            "Ref" : "CLIENTSECRET"
+                            "Ref" : "ClientSecret"
+                        },
+                        "API_URL": {
+                            "Ref": "ApiUrl"
+                        },
+                        "OAUTH_CUSTOM_HEADERS": {
+                            "Ref": "OAuthCustomHeaders"
+                        },
+                        "AUTHORIZE_CALLBACK_URI": {
+                            "Ref": "AuthorizeCallbackUri"
                         }
                     }
                 }
@@ -84,10 +102,19 @@
                 "Environment" : {
                     "Variables" : {
                         "CLIENT_KEY" : {
-                            "Ref" : "CLIENTKEY"
+                            "Ref" : "ClientKey"
                         },
                         "CLIENT_SECRET" : {
-                            "Ref" : "CLIENTSECRET"
+                            "Ref" : "ClientSecret"
+                        },
+                        "API_URL": {
+                            "Ref": "ApiUrl"
+                        },
+                        "OAUTH_CUSTOM_HEADERS": {
+                            "Ref": "OAuthCustomHeaders"
+                        },
+                        "AUTHORIZE_CALLBACK_URI": {
+                            "Ref": "AuthorizeCallbackUri"
                         }
                     }
                 }
@@ -124,10 +151,16 @@
                 "Environment" : {
                     "Variables" : {
                         "CLIENT_KEY" : {
-                            "Ref" : "CLIENTKEY"
+                            "Ref" : "ClientKey"
                         },
                         "CLIENT_SECRET" : {
-                            "Ref" : "CLIENTSECRET"
+                            "Ref" : "ClientSecret"
+                        },
+                        "OAUTH_CUSTOM_HEADERS": {
+                            "Ref": "OAuthCustomHeaders"
+                        },
+                        "AUTHORIZE_CALLBACK_URI": {
+                            "Ref": "AuthorizeCallbackUri"
                         }
                     }
                 }
@@ -164,15 +197,21 @@
                 "Environment" : {
                     "Variables" : {
                         "CLIENT_KEY" : {
-                            "Ref" : "CLIENTKEY"
+                            "Ref" : "ClientKey"
                         },
                         "CLIENT_SECRET" : {
-                            "Ref" : "CLIENTSECRET"
+                            "Ref" : "ClientSecret"
+                        },
+                        "OAUTH_CUSTOM_HEADERS": {
+                            "Ref": "OAuthCustomHeaders"
+                        },
+                        "AUTHORIZE_CALLBACK_URI": {
+                            "Ref": "AuthorizeCallbackUri"
                         }
                     }
                 }
             }
-          },
+        },
     },
     "Outputs" : {
         "ApiURL" : {

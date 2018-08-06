@@ -1,10 +1,12 @@
 #!/bin/sh
-echo "Starting install"
+echo "Installing dependencies..."
 npm install
-echo "Starting test install is over"
+
+echo "Running tests..."
 chmod -r 500:501 node_modules
 npm run test
-echo "Tests over"
-echo "Running Webpack"
+
+echo "Running webpack..."
 npm run build
-echo "Finished running Webpack"
+
+echo "Build successful"
