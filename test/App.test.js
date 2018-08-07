@@ -28,7 +28,6 @@ describe('Lambda handlers', () => {
         userTokenCallback(fakeError, fakeUserToken, fakeUserTokenSecret);
       });
 
-      /* eslint-disable global-require */
       const OAuth = require('oauth');
 
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
@@ -36,7 +35,6 @@ describe('Lambda handlers', () => {
         getOAuthRequestToken: fakeGetOAuthRequestToken,
       }));
 
-      /* eslint-disable global-require */
       const FirstLeg = require('../src/OAuthFirstLeg');
 
       const fakeOAuthTokens = {
@@ -48,7 +46,6 @@ describe('Lambda handlers', () => {
       FirstLeg.getTemporaryOAuthTokens = jest.fn().mockReturnValue(fakeOAuthTokens);
       FirstLeg.getTemporaryUserTokens = jest.fn().mockReturnValue(fakeTokens);
 
-      /* eslint-disable global-require */
       const { firstLegHandler } = require('../app');
 
       firstLegHandler(event, context, callback);
@@ -117,7 +114,6 @@ describe('Lambda handlers', () => {
           tokenCallback(fakeError, fakeResponseData, { statusCode });
         });
 
-      /* eslint-disable global-require */
       const OAuth = require('oauth');
 
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
@@ -125,7 +121,6 @@ describe('Lambda handlers', () => {
         getOAuthRequestToken: jest.fn(),
       }));
 
-      /* eslint-disable global-require */
       const FirstLeg = require('../src/OAuthFirstLeg');
 
       const fakeTokens = chance.string();
@@ -134,7 +129,6 @@ describe('Lambda handlers', () => {
       FirstLeg.getTemporaryOAuthTokens = jest.fn().mockReturnValue(fakeOAuthTokens);
       FirstLeg.getTemporaryUserTokens = jest.fn().mockReturnValue(fakeTokens);
 
-      /* eslint-disable global-require */
       const { firstLegHandler } = require('../app');
 
       firstLegHandler(event, context, callback);
@@ -174,14 +168,12 @@ describe('Lambda handlers', () => {
     });
 
     it('is a function', () => {
-      /* eslint-disable global-require */
       const { thirdLegHandler } = require('../app');
 
       expect(thirdLegHandler).toEqual(expect.any(Function));
     });
 
     it('gets the oauth token', () => {
-      /* eslint-disable global-require */
       const OAuth = require('oauth');
 
       const mockGetOAuthAccessToken = jest.fn();

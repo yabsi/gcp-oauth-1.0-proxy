@@ -21,7 +21,6 @@ describe('OAuth Sign Request', () => {
 
       const fakeResponseData = chance.string();
 
-      /* eslint-disable global-require */
       const OAuth = require('oauth');
 
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
