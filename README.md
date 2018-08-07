@@ -7,7 +7,7 @@ This repo serves as a proxy for oAuth 1.0a requests. It uses AWS Lambdas to sign
 ## Initial Setup
 
 1. Install [Node](https://nodejs.org/en/download/)
-2. Clone git repo: `git clone https://github.com/sourceallies/sai-find-things-auth`
+2. Clone git repo: `git clone https://github.com/sourceallies/aws-oauth-1.0-proxy.git`
 3. cd to the git repository
 4. `npm install`
 
