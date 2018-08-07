@@ -243,8 +243,7 @@ describe('OAuth Sign Request', () => {
 
       mockOAuth(fakeResponseData);
 
-      /* eslint-disable prefer-destructuring */
-      const doSignAndPost = require('../src/OAuthSignRequest').doSignAndPost;
+      const { doSignAndPost } = require('../src/OAuthSignRequest');
 
       const responseData = await doSignAndPost();
 
