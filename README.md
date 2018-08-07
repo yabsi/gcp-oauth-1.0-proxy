@@ -16,7 +16,7 @@ This repo serves as a proxy for oAuth 1.0a requests. It uses AWS Lambdas to sign
 Set up environment variables for deployment:
 
 - For local deployments, create an .env file based on .env.example
-- For deployment via CI server, add environment variables to your CI configuration
+- For deployment via CI, add environment variables to your build and deploy plans
 
 See [Environment Configuration](https://github.com/sourceallies/OAuth-1.0A-Lambda-API/wiki/Environment-Configuration) for more details.
 
