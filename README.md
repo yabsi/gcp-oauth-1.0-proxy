@@ -18,7 +18,7 @@ Set up environment variables for deployment:
 - For local deployments, create an .env file based on .env.example
 - For deployment via CI, add environment variables to your build and deploy plans
 
-See [Environment Configuration](https://github.com/sourceallies/OAuth-1.0A-Lambda-API/wiki/Environment-Configuration) for more details.
+See [Environment Configuration](https://github.com/sourceallies/aws-oauth-1.0-proxy/wiki/Environment-Configuration) for more details.
 
 ## Deploy Steps
 
