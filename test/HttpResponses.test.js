@@ -12,12 +12,14 @@ describe('Responses', () => {
   it('return a message for each valid response', () => {
     validResponses.forEach(response => expect(getStatusText(response)).toEqual(expect.any(String)));
   });
+
   it('return an error message for non-valid response', () => {
     let statusCode = chance.integer();
 
     while (validResponses.includes(statusCode)) {
       statusCode = chance.integer();
     }
+
     expect(getStatusText(statusCode)).toEqual(`Status code does not exist: ${statusCode}`);
   });
 });
