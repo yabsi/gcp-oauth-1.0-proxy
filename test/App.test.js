@@ -364,8 +364,7 @@ describe('Lambda handlers', () => {
 
       OAuthSignRequest.doSignAndPost = jest.fn().mockResolvedValue(chance.string());
 
-      /* eslint-disable prefer-destructuring */
-      oAuthSignRequestPost = require('../app').oAuthSignRequestPost;
+      ({ oAuthSignRequestPost } = require('../app'));
     });
 
     it('is a function', () => {
@@ -385,8 +384,7 @@ describe('Lambda handlers', () => {
 
       OAuthSignRequest.doSignAndPost = jest.fn().mockResolvedValue(chance.string());
 
-      /* eslint-disable prefer-destructuring */
-      oAuthSignRequestPost = require('../app').oAuthSignRequestPost;
+      ({ oAuthSignRequestPost } = require('../app'));
 
       const url = chance.url();
       const accessToken = chance.string();
@@ -426,8 +424,7 @@ describe('Lambda handlers', () => {
 
       OAuthSignRequest.doSignAndPost = jest.fn().mockResolvedValue(fakeResponse);
 
-      /* eslint-disable prefer-destructuring */
-      oAuthSignRequestPost = require('../app').oAuthSignRequestPost;
+      ({ oAuthSignRequestPost } = require('../app'));
 
       const response = await oAuthSignRequestPost(createFakeEvent());
       const expectedResponse = {
@@ -466,8 +463,7 @@ describe('Lambda handlers', () => {
 
       OAuthSignRequest.doSignAndPost = jest.fn().mockRejectedValue(fakeError);
 
-      /* eslint-disable prefer-destructuring */
-      oAuthSignRequestPost = require('../app').oAuthSignRequestPost;
+      ({ oAuthSignRequestPost } = require('../app'));
 
       expect.assertions(1);
 
