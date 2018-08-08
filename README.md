@@ -1,7 +1,5 @@
 # OAuth 1.0a Lambdas
 
-[Coveralls]
-
 This repo serves as a proxy for oAuth 1.0a requests. It uses AWS Lambdas to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of oAuth 1.0a authentication and sign and proxy GET and POST requests.
 
 ## Initial Setup
@@ -141,14 +139,14 @@ If there is an error connecting to the url that is being proxied, the response s
 
 #### Unit Tests
 
-Run the [jest](https://github.com/facebook/jest) test runner:
+Run the [Jest](https://github.com/facebook/jest) test runner:
 
 `npm run test`
 
 
 #### Linting
 
-Lint repo using ES Lint:
+Lint repo using [ES Lint](https://github.com/eslint/eslint):
 
 `npm run lint`
 
