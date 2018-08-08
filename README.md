@@ -17,7 +17,7 @@ Set up environment variables for deployment:
 
 See [Environment Configuration](../../wiki/Environment-Configuration) for more details.
 
-## Deploy Steps
+## Build and Deploy Steps
 
 The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
 
@@ -27,7 +27,7 @@ Note that the deploy script will fail if there are no AWS keys with valid IAM pe
     - Installs dependencies
     - Runs tests
     - Webpacks the project
-2. Create a `.zip` file containing the source code to be deployed
+2. Create a `.zip` file containing the newly generated index.js file
 3. Run `./deploy/deploy.sh`
     - Removes the old S3 bucket
     - Creates a new S3 bucket
