@@ -1,21 +1,38 @@
-# OAuth 1.0a Lambdas
+# OAuth 1.0a Proxy
 
-[Coveralls]
-
-This repo serves as a proxy for oAuth 1.0a requests. It uses AWS Lambdas to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of oAuth 1.0a authentication and sign and proxy GET and POST requests.
+This project serves as a proxy for OAuth 1.0a requests. We leverage Lambdas created with [AWS SAM](https://github.com/awslabs/serverless-application-model) to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of OAuth 1.0a authentication as well as signing and proxying GET and POST requests.
 
 ## Initial Setup
 
-1. Install [Node](https://nodejs.org/en/download/)
-2. Clone git repo: `git clone https://github.com/sourceallies/sai-find-things-auth`
-3. cd to the git repository
-4. `npm install`
-5. Create a .env file based on .env.example
+1. Clone git repo: `git clone https://github.com/sourceallies/aws-oauth-1.0-proxy.git`
+2. cd to the git repository
+3. `npm install`
+
+## Environment Configuration
+
+Set up environment variables for deployment:
+
+- For local deployments, create an `.env` file based on .env.example
+- For deployment via CI, add environment variables to your build and deploy plans
+
+See [Environment Configuration](../../wiki/Environment-Configuration) for more details.
 
 ## Deploy Steps
 
-1. `./build/build.sh` to webpack the project
-2. `./deploy/deploy.sh` to deploy the Lambdas
+The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
+
+Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway and Lambdas.
+
+1. Run `./build/build.sh`
+    - Installs dependencies
+    - Runs tests
+    - Webpacks the project
+2. Create a `.zip` file containing the source code to be deployed
+3. Run `./deploy/deploy.sh`
+    - Removes the old S3 bucket
+    - Creates a new S3 bucket
+    - Adds the zipped code to the S3 bucket
+    - Creates the lambdas
 
 ## Endpoints
 
@@ -123,17 +140,20 @@ If there is an error connecting to the url that is being proxied, the response s
 
 #### Unit Tests
 
-Run the [jest](https://github.com/facebook/jest) test runner:
+Run the [Jest](https://github.com/facebook/jest) test runner:
 
 `npm run test`
 
 
 #### Linting
 
-Lint repo using ES Lint:
+Lint repo using [ES Lint](https://github.com/eslint/eslint):
 
 `npm run lint`
 
 ## Contribution
 
 Fork the repo and create a pull request describing your contribution.
+
+## License
+This project is licensed under the terms of the [Apache 2.0](LICENSE.md) license.

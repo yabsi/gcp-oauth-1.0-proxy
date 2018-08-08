@@ -17,7 +17,7 @@ aws s3 mb s3://$bucketName
 aws s3api wait bucket-exists --bucket $bucketName
 echo $bucketName
 
-echo "Putting the build artifacts into the S3 bucket..."
+echo "Putting the zipped code into the S3 bucket..."
 aws s3api put-object --bucket $bucketName --key artifact.zip --body ../artifact.zip
 
 echo "Creating the lambdas..."
@@ -41,6 +41,6 @@ aws cloudformation deploy --stack-name $stackName \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."
-aws cloudformation describe-stack-events --stack-name sai-find-things-auth
+aws cloudformation describe-stack-events --stack-name $stackName
 
 echo "Deploy successful"
