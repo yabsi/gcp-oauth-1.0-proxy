@@ -1,8 +1,12 @@
 {
-  "name": "oauth-proxy-lambdas",
-  "version": "0.0.0",
-  "description": "2 Lambdas that can be used for OAuth1.0",
+  "name": "aws-oauth-1.0-proxy",
+  "version": "1.0.0",
+  "description": "A proxy for OAuth 1.0a requests using AWS Lambdas.",
+  "author": "sourceallies",
+  "license": "Apache-2.0",
+  "repository": "github:sourceallies/aws-oauth-1.0-proxy",
   "main": "app.js",
+  "engines": { "node" : ">6.3.0" },
   "scripts": {
     "start": "node -r dotenv/config app.js",
     "coverage": "jest --coverage --collectCoverageFrom=src/**/*.{js,jsx} --collectCoverageFrom=app.js",
@@ -17,13 +21,16 @@
     "chance": "^1.0.16",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
     "eslint-plugin-react": "^7.10.0",
     "jest": "^22.4.4",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
-    "webpack-command": "^0.4.1"
+    "webpack-command": "^0.4.1",
+    "webpack-node-externals": "^1.7.2"
   },
   "jest": {
     "setupFiles": [
@@ -32,9 +39,6 @@
   },
   "dependencies": {
     "dotenv": "^5.0.1",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-plugin-jsx-a11y": "^6.1.0",
-    "oauth": "^0.9.14",
-    "webpack-node-externals": "^1.7.2"
+    "oauth": "^0.9.14"
   }
 }
