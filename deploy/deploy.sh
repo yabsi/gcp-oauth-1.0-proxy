@@ -41,6 +41,6 @@ aws cloudformation deploy --stack-name $stackName \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."
-aws cloudformation describe-stack-events --stack-name sai-find-things-auth
+aws cloudformation describe-stack-events --stack-name $stackName
 
 echo "Deploy successful"
