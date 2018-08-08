@@ -13,6 +13,7 @@ aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
 echo "Creating a new S3 bucket..."
+bucketName="${bamboo_BUCKET_NAME}-${bamboo_deploy_environment,,}"
 aws s3 mb s3://$bucketName
 aws s3api wait bucket-exists --bucket $bucketName
 echo $bucketName
