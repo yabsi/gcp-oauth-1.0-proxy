@@ -157,4 +157,4 @@ Lint repo using ES Lint:
 Fork the repo and create a pull request describing your contribution.
 
 ## License
-aws-oauth-1.0-proxy is [Apache 2.0 licensed] (https://github.com/sourceallies/aws-oauth-1.0-proxy/blob/master/LICENSE).
+aws-oauth-1.0-proxy is [Apache 2.0 licensed](https://github.com/sourceallies/aws-oauth-1.0-proxy/blob/master/LICENSE).
