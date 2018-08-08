@@ -12,10 +12,10 @@ This project serves as a proxy for OAuth 1.0a requests. It uses Lambdas created 
 
 Set up environment variables for deployment:
 
-- For local deployments, create an .env file based on .env.example
+- For local deployments, create an `.env` file based on .env.example
 - For deployment via CI, add environment variables to your build and deploy plans
 
-See [Environment Configuration](https://github.com/sourceallies/aws-oauth-1.0-proxy/wiki/Environment-Configuration) for more details.
+See [Environment Configuration](/wiki/Environment-Configuration) for more details.
 
 ## Deploy Steps
 
@@ -25,12 +25,17 @@ The build and deploy scripts in the project are written for Bamboo CI. Thus, for
     - Installs dependencies
     - Runs tests
     - Webpacks the project
-2. Create a `.zip` file containing the project code
+2. Create a `.zip` file containing the source code to be deployed
 3. Run `./deploy/deploy.sh`
     - Removes the old S3 bucket
     - Creates a new S3 bucket
     - Adds the zipped code to the S3 bucket
     - Creates the lambdas
+
+Note:
+  - You will require all environment variables (see [deploy script](/deploy/deploy.sh)) in order to deploy this project.
+  - Deployment will fail if you do not have AWS keys with correct IAM permissions.
+  - An example IAM policy has been included in the repository. You will need to attach this policy to an IAM role to attain proper permissions.
 
 ## Endpoints
 
