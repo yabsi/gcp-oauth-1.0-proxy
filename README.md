@@ -1,13 +1,12 @@
-# OAuth 1.0a Lambdas
+# OAuth 1.0a Proxy
 
-This repo serves as a proxy for oAuth 1.0a requests. It uses AWS Lambdas to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of oAuth 1.0a authentication and sign and proxy GET and POST requests.
+This project serves as a proxy for OAuth 1.0a requests. It uses AWS Lambdas to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of OAuth 1.0a authentication as well as sign and proxy GET and POST requests.
 
 ## Initial Setup
 
-1. Install [Node](https://nodejs.org/en/download/)
-2. Clone git repo: `git clone https://github.com/sourceallies/aws-oauth-1.0-proxy.git`
-3. cd to the git repository
-4. `npm install`
+1. Clone git repo: `git clone https://github.com/sourceallies/aws-oauth-1.0-proxy.git`
+2. cd to the git repository
+3. `npm install`
 
 ## Environment Configuration
 
@@ -25,13 +24,13 @@ The build and deploy scripts in the project are written for Bamboo CI. Thus, for
 1. Run `./build/build.sh`
     - Installs dependencies
     - Runs tests
-    - webpacks the project
+    - Webpacks the project
 2. Create a `.zip` file containing the project code
 3. Run `./deploy/deploy.sh`
-    - Remove the old S3 bucket
-    - Create a new S3 bucket
-    - Add the zipped code to the S3 bucket
-    - Create the lambdas
+    - Removes the old S3 bucket
+    - Creates a new S3 bucket
+    - Adds the zipped code to the S3 bucket
+    - Creates the lambdas
 
 ## Endpoints
 
