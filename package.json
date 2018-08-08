@@ -5,8 +5,8 @@
   "author": "sourceallies",
   "license": "Apache-2.0",
   "repository": "github:sourceallies/aws-oauth-1.0-proxy",
-  "keywords": ["aws-lambda","oauth-1.0a"],
   "main": "app.js",
+  "engines": { "node" : "^6.3.0" },
   "scripts": {
     "start": "node -r dotenv/config app.js",
     "coverage": "jest --coverage --collectCoverageFrom=src/**/*.{js,jsx} --collectCoverageFrom=app.js",

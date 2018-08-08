@@ -21,6 +21,8 @@ See [Environment Configuration](../../wiki/Environment-Configuration) for more d
 
 The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
 
+Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway and Lambdas.
+
 1. Run `./build/build.sh`
     - Installs dependencies
     - Runs tests
@@ -31,11 +33,6 @@ The build and deploy scripts in the project are written for Bamboo CI. Thus, for
     - Creates a new S3 bucket
     - Adds the zipped code to the S3 bucket
     - Creates the lambdas
-
-Note:
-  - You will require all environment variables (see [deploy script](/deploy/deploy.sh)) in order to deploy this project.
-  - Deployment will fail if you do not have AWS keys with correct IAM permissions.
-  - An example IAM policy has been included in the repository. You will need to attach this policy to an IAM role to attain proper permissions.
 
 ## Endpoints
 
@@ -159,4 +156,4 @@ Lint repo using [ES Lint](https://github.com/eslint/eslint):
 Fork the repo and create a pull request describing your contribution.
 
 ## License
-This project is licensed under the terms of the [Apache 2.0](https://github.com/sourceallies/aws-oauth-1.0-proxy/blob/master/LICENSE) license.
+This project is licensed under the terms of the [Apache 2.0](LICENSE.md) license.
