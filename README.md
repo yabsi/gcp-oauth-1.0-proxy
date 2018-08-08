@@ -1,6 +1,6 @@
 # OAuth 1.0a Proxy
 
-This project serves as a proxy for OAuth 1.0a requests. It uses Lambdas created using AWS SAM to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of OAuth 1.0a authentication as well as sign and proxy GET and POST requests.
+This project serves as a proxy for OAuth 1.0a requests. We leverage Lambdas created with [AWS SAM](https://github.com/awslabs/serverless-application-model) to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of OAuth 1.0a authentication as well as **signing and proxying** GET and POST requests.
 
 ## Initial Setup
 
