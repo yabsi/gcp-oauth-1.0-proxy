@@ -23,15 +23,15 @@ See [Environment Configuration](https://github.com/sourceallies/aws-oauth-1.0-pr
 The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
 
 1. Run `./build/build.sh`
-  - Installs dependencies
-  - Runs tests
-  - webpacks the project
+    - Installs dependencies
+    - Runs tests
+    - webpacks the project
 2. Create a `.zip` file containing the project code
 3. Run `./deploy/deploy.sh`
-  - Remove the old S3 bucket
-  - Create a new S3 bucket
-  - Add the zipped code to the S3 bucket
-  - Create the lambdas
+    - Remove the old S3 bucket
+    - Create a new S3 bucket
+    - Add the zipped code to the S3 bucket
+    - Create the lambdas
 
 ## Endpoints
 
