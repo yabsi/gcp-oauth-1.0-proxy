@@ -8,7 +8,7 @@ echo "Assuming role: $adminARN"
 source /bin/assumeRole $adminARN
 
 echo "Removing the S3 bucket..."
-bucketName="${bamboo_BUCKET_NAME}-${bamboo_deploy_environment,,}"
+bucketName="sai-find-things-auth-${bamboo_deploy_environment,,}"
 aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
@@ -41,6 +41,6 @@ aws cloudformation deploy --stack-name $stackName \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."
-aws cloudformation describe-stack-events --stack-name sai-find-things-auth
+aws cloudformation describe-stack-events --stack-name $stackName
 
 echo "Deploy successful"
