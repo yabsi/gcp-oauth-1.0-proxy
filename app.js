@@ -167,7 +167,7 @@ exports.oAuthSignRequestPost = async (event) => {
   const response = await doSignAndPost(url, accessToken, accessTokenSecret, JSON.stringify(data),
     process.env.OAUTH_CUSTOM_HEADERS)
     .then(responseData => ({
-      statusCode: 200,
+      statusCode: responseData.status,
       headers: {
         'Access-Control-Allow-Origin': '*',
         location: responseData.headers.location,
@@ -183,5 +183,6 @@ exports.oAuthSignRequestPost = async (event) => {
       body: JSON.stringify(error),
       isBase64Encoded: false,
     }));
+
   return response;
 };
