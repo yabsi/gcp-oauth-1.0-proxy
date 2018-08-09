@@ -21,7 +21,7 @@ See [Environment Configuration](../../wiki/Environment-Configuration) for more d
 
 The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
 
-Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway and Lambdas.
+Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway, Cloudformation and Lambdas.
 
 1. Run `./build/build.sh`
     - Installs dependencies

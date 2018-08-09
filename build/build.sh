@@ -10,3 +10,6 @@ echo "Running webpack..."
 npm run build
 
 echo "Build successful"
+
+echo "Zipping files to be deployed..."
+zip deploy-files.zip index.js
