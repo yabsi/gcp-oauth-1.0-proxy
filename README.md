@@ -23,6 +23,8 @@ The build and deploy scripts in the project are written for Bamboo CI. Thus, for
 
 Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway, Cloudformation and Lambdas.
 
+A more detailed explanation of what the deploy script is doing is supplied in the wiki under [Deploy Steps](../../wiki/Deploy-Steps).
+
 1. Run `./build/build.sh`
     - Installs dependencies
     - Runs tests
