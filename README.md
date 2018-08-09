@@ -134,7 +134,7 @@ Cache-Control: no-cache
 }
 ```
 
-A successful response will have a status code of 200. The rest of the response will be what you expect from the url that is being proxied.
+Response will be the same as what you expect from the url that is being proxied.
 
 If there is an error connecting to the url that is being proxied, the response status code will be 502.
 
