@@ -2,7 +2,6 @@
 set -e
 
 # Look up the ARN for the environment we are deploying into
-
 adminARN="$(printenv bamboo_SAI_${bamboo_deploy_environment}_ADMIN_ARN )"
 echo "Assuming role: $adminARN"
 source /bin/assumeRole $adminARN
