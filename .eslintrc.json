@@ -25,6 +25,6 @@
       "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
       "import/no-cycle": "off",
       "react/prop-types": "off",
-      "global-require": "off",
+      "global-require": "off"
     }
 }
