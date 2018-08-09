@@ -16,6 +16,6 @@ aws iam create-policy --policy-name basic-lambda-execution-managed-policy \
 
 echo "Attaching Policy..."
 aws iam attach-role-policy --role-name basic-lambda-execution-role \
---policy-arn arn:aws:iam::487696863217:policy/basic-lambda-execution-managed-policy \
+--policy-arn arn:aws:iam::$bamboo_AWS_USER_ID:policy/basic-lambda-execution-managed-policy \
 
 echo "Successfully Created Role"
