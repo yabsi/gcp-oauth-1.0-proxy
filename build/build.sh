@@ -12,4 +12,4 @@ npm run build
 echo "Build successful"
 
 echo "Zipping files to be deployed..."
-zip deploy-files.zip index.js
+zip artifact.zip index.js

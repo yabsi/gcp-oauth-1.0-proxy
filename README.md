@@ -27,8 +27,8 @@ Note that the deploy script will fail if there are no AWS keys with valid IAM pe
     - Installs dependencies
     - Runs tests
     - Webpacks the project
-2. Create a `.zip` file containing the newly generated index.js file
-3. Run `./deploy/deploy.sh`
+    - Zips deploy files into artifact.zip
+2. Run `./deploy/deploy.sh`
     - Removes the old S3 bucket
     - Creates a new S3 bucket
     - Adds the zipped code to the S3 bucket
