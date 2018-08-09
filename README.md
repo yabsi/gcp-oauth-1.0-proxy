@@ -13,7 +13,7 @@ This project serves as a proxy for OAuth 1.0a requests. We leverage Lambdas crea
 Set up environment variables for deployment:
 
 - For local deployments, create an `.env` file based on .env.example
-- For deployment via CI, add environment variables to your build and deploy plans
+- For deployment via CI, add environment variables to your deployment plan
 
 See [Environment Configuration](../../wiki/Environment-Configuration) for more details.
 
