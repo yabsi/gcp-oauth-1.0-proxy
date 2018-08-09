@@ -147,7 +147,7 @@ exports.oAuthSignRequestGet = async (event) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(error),
+      body: `${error}`,
       isBase64Encoded: false,
     }));
 
