@@ -1,5 +1,7 @@
 # OAuth 1.0a Proxy
 
+[![Coverage Status](https://coveralls.io/repos/github/sourceallies/aws-oauth-1.0-proxy/badge.svg?branch=master&t=VpXCpR)](https://coveralls.io/github/sourceallies/aws-oauth-1.0-proxy?branch=master)
+
 This project serves as a proxy for OAuth 1.0a requests. We leverage Lambdas created with [AWS SAM](https://github.com/awslabs/serverless-application-model) to sign requests using the specified app ID and secret. The Lambdas cover the first and third legs of OAuth 1.0a authentication as well as signing and proxying GET and POST requests.
 
 ## Initial Setup
@@ -13,7 +15,7 @@ This project serves as a proxy for OAuth 1.0a requests. We leverage Lambdas crea
 Set up environment variables for deployment:
 
 - For local deployments, create an `.env` file based on .env.example
-- For deployment via CI, add environment variables to your build and deploy plans
+- For deployment via CI, add environment variables to your deployment plan
 
 See [Environment Configuration](../../wiki/Environment-Configuration) for more details.
 
@@ -159,3 +161,8 @@ Fork the repo and create a pull request describing your contribution.
 
 ## License
 This project is licensed under the terms of the [Apache 2.0](LICENSE.md) license.
+
+## About Source Allies
+Source Allies is an IT Consultancy based in Urbandale, Iowa. Learn more [here](https://www.sourceallies.com/what-we-do/) and get in touch with us [here](https://www.sourceallies.com/contact-us/).
+
+![Source Allies Logo](320.png)
