@@ -165,4 +165,4 @@ This project is licensed under the terms of the [Apache 2.0](LICENSE.md) license
 ## About Source Allies
 Source Allies is an IT Consultancy based in Urbandale, Iowa. Learn more [here](https://www.sourceallies.com/what-we-do/) and get in touch with us [here](https://www.sourceallies.com/contact-us/).
 
-![Source Allies Logo](320.png)
+![Source Allies Logo](assets/320.png)
