@@ -2,12 +2,10 @@ const { OAuth } = require('oauth');
 const config = require('./config');
 const { doSignAndGet } = require('./src/OAuthSignRequest');
 const { doSignAndPost } = require('./src/OAuthSignRequest');
-const { getTemporaryOAuthTokens, getTemporaryUserTokens } = require('./src/OAuthFirstLeg');
 const { getStatusText } = require('./src/HttpResponses');
 require('dotenv').config();
 
 exports.firstLegHandler = (event, context, callback) => {
-  let tokens;
   const tokenlessOauthSession = new OAuth(
     undefined,
     undefined,
@@ -32,51 +30,18 @@ exports.firstLegHandler = (event, context, callback) => {
       };
 
       callback(null, response);
-    }
-    const temporaryTokens = getTemporaryOAuthTokens(error, responseData, result);
-
-    if (typeof temporaryTokens === 'string') {
-      const response = {
-        statusCode: 200,
-        headers: {
-          success: 'HttpError',
-        },
-        body: JSON.stringify(temporaryTokens),
-        isBase64Encoded: false,
-      };
-
-      callback(null, response);
-    }
-
-    Object.keys(temporaryTokens).forEach((key) => {
-      config[key] = temporaryTokens[key];
-    });
-
-    const userTokenOAuthSession = new OAuth(
-      config.oauthRequestTokenUri,
-      config.oauthAccessTokenUri,
-      config.clientKey,
-      config.clientSecret,
-      config.oAuthVersion,
-      config.authorizeCallbackUri,
-      config.oAuthSignatureMethod,
-      config.oAuthNonceSize,
-      config.oAuthCustomHeaders,
-    );
-
-    userTokenOAuthSession.getOAuthRequestToken((userTokenError, token, secret) => {
-      tokens = getTemporaryUserTokens(userTokenError, token, secret);
+    } else {
       const response = {
         statusCode: 200,
         headers: {
           success: 'true',
         },
-        body: JSON.stringify(tokens),
+        body: JSON.stringify(responseData),
         isBase64Encoded: false,
       };
 
       callback(null, response);
-    });
+    }
   });
 };
 
