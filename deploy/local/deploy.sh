@@ -1,8 +1,10 @@
 #!/bin/bash
-set -e
+set -o allexport
+source ../../.env
+set +o allexport
 
 echo "Removing the S3 bucket..."
-bucketName="aws-oauth-1.0-proxy-test"
+bucketName=$BUCKET_NAME
 aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
@@ -15,7 +17,7 @@ echo "Putting the zipped code into the S3 bucket..."
 aws s3api put-object --bucket $bucketName --key artifact.zip --body ../../artifact.zip
 
 echo "Creating the lambdas..."
-stackName="aws-oauth-proxy-stack"
+stackName=$STACK_NAME
 release="1.0.0"
 aws cloudformation deploy --stack-name $stackName \
     --template-file ../cloudformation.template.JSON \
@@ -26,12 +28,12 @@ aws cloudformation deploy --stack-name $stackName \
         ContactEmail=agpoint@sourceallies.com \
         Release=$release \
     --parameter-overrides \
-        ClientKey="cdMaZqU0sMr9qep1GdJeu5TEZ" \
-        ClientSecret="TQkIOM3pfXZ4YfonweaIROKtSxJpJYgWijYzF6ciqlwKzD6TNZ" \
+        ClientKey=$CLIENT_KEY \
+        ClientSecret=$CLIENT_SECRET \
         BucketName=$bucketName \
-        ApiUrl="https://api.twitter.com" \
+        ApiUrl=$API_URL \
         OAuthCustomHeaders="application/x-www-form-urlencoded" \
-        AuthorizeCallbackUri="https://maxwelltalley.com" \
+        AuthorizeCallbackUri=$AUTHORIZE_CALLBACK_URI \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."

@@ -1,8 +1,9 @@
 #!/bin/bash
-set -e
+set -o allexport
+source ../../.env
+set +o allexport
 
 echo "Creating Bucket..."
-bucketName="aws-oauth-1.0-proxy-test-1"
-aws s3 mb s3://$bucketName
+aws s3 mb s3://$BUCKET_NAME
 
 echo "Successfully Created Bucket"
