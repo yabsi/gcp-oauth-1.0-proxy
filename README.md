@@ -21,7 +21,7 @@ See [Environment Configuration](../../wiki/Environment-Configuration) for more d
 
 ## Build and Deploy Steps
 
-The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
+The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables. For local deployments, run the deploy scripts in `deploy/local` instead.
 
 Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway, Cloudformation and Lambdas.
 
