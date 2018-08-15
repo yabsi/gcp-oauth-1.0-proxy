@@ -23,8 +23,7 @@ const doSignAndGet = (linkToOpen, accessToken, accessTokenSecret) => {
       (error, responseData, result) => {
         if (result.statusCode < 200 || result.statusCode >= 300) {
           resolve(getStatusText(result.statusCode));
-        }
-        if (error) {
+        } else if (error) {
           reject(error);
         } else {
           resolve(responseData);
