@@ -2,7 +2,6 @@ const { OAuth } = require('oauth');
 const config = require('./config');
 const { doSignAndGet } = require('./src/OAuthSignRequest');
 const { doSignAndPost } = require('./src/OAuthSignRequest');
-const { getStatusText } = require('./src/HttpResponses');
 require('dotenv').config();
 
 exports.firstLegHandler = (event, context, callback) => {

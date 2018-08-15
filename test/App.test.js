@@ -1,5 +1,4 @@
 const config = require('../config');
-const { getStatusText } = require('../src/HttpResponses');
 
 describe('Lambda handlers', () => {
   afterEach(() => {
