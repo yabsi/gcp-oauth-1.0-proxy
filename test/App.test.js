@@ -7,39 +7,34 @@ describe('Lambda handlers', () => {
   });
 
   describe('OAuth First Leg Handler', () => {
+    it('is a function', () => {
+      const { firstLegHandler } = require('../app');
+
+      expect(firstLegHandler).toEqual(expect.any(Function));
+    });
+
     it('should initialize oAuth with the correct parameters', () => {
-      const event = chance.string();
-      const context = chance.string();
-      const callback = jest.fn();
-
-      const fakeError = null;
-      const fakeResponseData = chance.string();
-      const fakeResult = { statusCode: chance.natural({ min: 200, max: 299 }) };
-
-      const fakeGet = jest.fn().mockImplementation((
-        link,
-        accessToken,
-        accessTokenSecret,
-        tokenCallback,
-      ) => {
-        tokenCallback(fakeError, fakeResponseData, fakeResult);
-      });
-
       const OAuth = require('oauth');
 
+      const fakeGetOAuthRequestToken = jest.fn();
+
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
-        get: fakeGet,
+        getOAuthRequestToken: fakeGetOAuthRequestToken,
       }));
 
       const { firstLegHandler } = require('../app');
+
+      const event = chance.string();
+      const context = chance.string();
+      const callback = jest.fn();
 
       firstLegHandler(event, context, callback);
 
       const oAuthFirstCallParameters = OAuth.OAuth.mock.calls[0];
 
       expect(oAuthFirstCallParameters).toEqual([
-        undefined,
-        undefined,
+        config.firstLegUri,
+        config.thirdLegUri,
         config.clientKey,
         config.clientSecret,
         config.oAuthVersion,
@@ -50,40 +45,58 @@ describe('Lambda handlers', () => {
       ]);
     });
 
-    it('should return the response data if the response is successful', () => {
+    it('should get the request tokens', () => {
+      const OAuth = require('oauth');
+
+      const fakeGetOAuthRequestToken = jest.fn();
+
+      OAuth.OAuth = jest.fn().mockImplementation(() => ({
+        getOAuthRequestToken: fakeGetOAuthRequestToken,
+      }));
+
+      const { firstLegHandler } = require('../app');
+
       const event = chance.string();
       const context = chance.string();
       const callback = jest.fn();
 
-      const fakeError = null;
-      const fakeResponseData = chance.string();
-      const fakeResult = { statusCode: chance.natural({ min: 200, max: 299 }) };
+      firstLegHandler(event, context, callback);
 
-      const fakeGet = jest.fn().mockImplementation((
-        link,
-        accessToken,
-        accessTokenSecret,
-        tokenCallback,
-      ) => {
-        tokenCallback(fakeError, fakeResponseData, fakeResult);
-      });
+      expect(fakeGetOAuthRequestToken).toBeCalledWith(expect.any(Function));
+    });
 
+    it('should return the request tokens if the response is successful', () => {
       const OAuth = require('oauth');
 
+      const fakeError = null;
+      const fakeRequestToken = chance.string();
+      const fakeRequestTokenSecret = chance.string();
+
+      const fakeGetOAuthRequestToken = jest.fn().mockImplementation((responseCallback) => {
+        responseCallback(fakeError, fakeRequestToken, fakeRequestTokenSecret);
+      });
+
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
-        get: fakeGet,
+        getOAuthRequestToken: fakeGetOAuthRequestToken,
       }));
 
       const { firstLegHandler } = require('../app');
+
+      const event = chance.string();
+      const context = chance.string();
+      const callback = jest.fn();
 
       firstLegHandler(event, context, callback);
 
       const response = {
         statusCode: 200,
         headers: {
-          success: 'true',
+          'Access-Control-Allow-Origin': '*',
         },
-        body: JSON.stringify(fakeResponseData),
+        body: JSON.stringify({
+          requestToken: fakeRequestToken,
+          requestTokenSecret: fakeRequestTokenSecret,
+        }),
         isBase64Encoded: false,
       };
 
@@ -91,45 +104,34 @@ describe('Lambda handlers', () => {
     });
 
     it('should return an error if the response is unsuccessful', () => {
-      const event = chance.string();
-      const context = chance.string();
-      const callback = jest.fn();
-
-      const fakeError = null;
-      const fakeResponseData = chance.string();
-
-      let statusCode = chance.natural({ min: 0, max: 500 });
-      while (statusCode > 200 && statusCode < 300) {
-        statusCode = chance.natural({ min: 0, max: 500 });
-      }
-
-      const fakeResult = { statusCode };
-
-      const fakeGet = jest.fn().mockImplementation((
-        link,
-        accessToken,
-        accessTokenSecret,
-        tokenCallback,
-      ) => {
-        tokenCallback(fakeError, fakeResponseData, fakeResult);
-      });
-
       const OAuth = require('oauth');
 
+      const fakeError = chance.string();
+      const fakeRequestToken = chance.string();
+      const fakeRequestTokenSecret = chance.string();
+
+      const fakeGetOAuthRequestToken = jest.fn().mockImplementation((responseCallback) => {
+        responseCallback(fakeError, fakeRequestToken, fakeRequestTokenSecret);
+      });
+
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
-        get: fakeGet,
+        getOAuthRequestToken: fakeGetOAuthRequestToken,
       }));
 
       const { firstLegHandler } = require('../app');
+
+      const event = chance.string();
+      const context = chance.string();
+      const callback = jest.fn();
 
       firstLegHandler(event, context, callback);
 
       const response = {
         statusCode: 200,
         headers: {
-          success: 'HttpError',
+          'Access-Control-Allow-Origin': '*',
         },
-        body: JSON.stringify(getStatusText(statusCode)),
+        body: JSON.stringify(fakeError),
         isBase64Encoded: false,
       };
 

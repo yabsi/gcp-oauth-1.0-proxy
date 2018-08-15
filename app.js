@@ -7,8 +7,8 @@ require('dotenv').config();
 
 exports.firstLegHandler = (event, context, callback) => {
   const tokenlessOauthSession = new OAuth(
-    undefined,
-    undefined,
+    config.firstLegUri,
+    config.thirdLegUri,
     config.clientKey,
     config.clientSecret,
     config.oAuthVersion,
@@ -18,31 +18,29 @@ exports.firstLegHandler = (event, context, callback) => {
     config.oAuthCustomHeaders,
   );
 
-  tokenlessOauthSession.get(config.platformBaseUri, null, null, (error, responseData, result) => {
-    if (result.statusCode < 200 || result.statusCode >= 300) {
-      const response = {
-        statusCode: 200,
-        headers: {
-          success: 'HttpError',
-        },
-        body: JSON.stringify(getStatusText(result.statusCode)),
-        isBase64Encoded: false,
-      };
+  const responseCallback = (error, requestToken, requestTokenSecret) => {
+    let body = {
+      requestToken,
+      requestTokenSecret,
+    };
 
-      callback(null, response);
-    } else {
-      const response = {
-        statusCode: 200,
-        headers: {
-          success: 'true',
-        },
-        body: JSON.stringify(responseData),
-        isBase64Encoded: false,
-      };
-
-      callback(null, response);
+    if (error) {
+      body = error;
     }
-  });
+
+    const response = {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify(body),
+      isBase64Encoded: false,
+    };
+
+    callback(null, response);
+  };
+
+  tokenlessOauthSession.getOAuthRequestToken(responseCallback);
 };
 
 exports.thirdLegHandler = (event, context, callback) => {
@@ -55,8 +53,8 @@ exports.thirdLegHandler = (event, context, callback) => {
   } = receivedBody;
 
   const oAuthSession = new OAuth(
-    `${process.env.API_URL}/oauth/request_token`,
-    `${process.env.API_URL}/oauth/access_token`,
+    config.firstLegUri,
+    config.thirdLegUri,
     config.clientKey,
     config.clientSecret,
     config.oAuthVersion,
@@ -76,14 +74,16 @@ exports.thirdLegHandler = (event, context, callback) => {
       body = error;
     }
 
-    callback(null, {
+    const response = {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(body),
       isBase64Encoded: false,
-    });
+    };
+
+    callback(null, response);
   };
 
   oAuthSession.getOAuthAccessToken(requestToken, requestTokenSecret, verifier, responseCallback);
