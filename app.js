@@ -128,8 +128,13 @@ exports.oAuthSignRequestPost = async (event) => {
     data,
   } = receivedBody;
 
-  const response = await doSignAndPost(url, accessToken, accessTokenSecret, JSON.stringify(data),
-    process.env.OAUTH_CUSTOM_HEADERS)
+  const response = await doSignAndPost(
+    url,
+    accessToken,
+    accessTokenSecret,
+    JSON.stringify(data),
+    process.env.OAUTH_CUSTOM_HEADERS,
+  )
     .then(responseData => ({
       statusCode: responseData.status,
       headers: {
