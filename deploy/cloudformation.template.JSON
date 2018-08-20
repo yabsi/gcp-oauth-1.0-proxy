@@ -17,7 +17,7 @@
     "ContentTypeHeader": {
       "Type": "String"
     },
-    "AccessControlAllowOriginHeader": {
+    "AcessControlAllowOriginHeader": {
       "Type": "String"
     },
     "AuthorizeCallbackUri": {
@@ -68,7 +68,7 @@
               "Ref": "ContentTypeHeader"
             },
             "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AccessControlAllowOriginHeader"
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -120,7 +120,7 @@
               "Ref": "ContentTypeHeader"
             },
             "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AccessControlAllowOriginHeader"
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -169,7 +169,7 @@
               "Ref": "ContentTypeHeader"
             },
             "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AccessControlAllowOriginHeader"
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -218,7 +218,7 @@
               "Ref": "ContentTypeHeader"
             },
             "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AccessControlAllowOriginHeader"
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
