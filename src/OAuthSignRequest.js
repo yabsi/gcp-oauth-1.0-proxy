@@ -4,8 +4,8 @@ const { getStatusText } = require('../src/HttpResponses');
 
 const doSignAndGet = (linkToOpen, accessToken, accessTokenSecret) => {
   const oAuthSession = new OAuth(
-    undefined,
-    undefined,
+    config.firstLegUri,
+    config.thirdLegUri,
     config.clientKey,
     config.clientSecret,
     config.oAuthVersion,
@@ -16,24 +16,33 @@ const doSignAndGet = (linkToOpen, accessToken, accessTokenSecret) => {
   );
 
   return new Promise((resolve, reject) => {
-    oAuthSession.get(linkToOpen, accessToken, accessTokenSecret, (error, responseData, result) => {
-      if (result.statusCode < 200 || result.statusCode >= 300) {
-        resolve(getStatusText(result.statusCode));
-      }
-      if (error) {
-        reject(error);
-      } else {
-        resolve(responseData);
-      }
-    });
+    oAuthSession.get(
+      linkToOpen,
+      accessToken,
+      accessTokenSecret,
+      (error, responseData, result) => {
+        if (result.statusCode < 200 || result.statusCode >= 300) {
+          resolve(getStatusText(result.statusCode));
+        } else if (error) {
+          reject(error);
+        } else {
+          resolve(responseData);
+        }
+      },
+    );
   });
 };
 
-const doSignAndPost = (linkToOpen, accessToken, accessTokenSecret,
-  postBody, postBodyContentType) => {
+const doSignAndPost = (
+  linkToOpen,
+  accessToken,
+  accessTokenSecret,
+  postBody,
+  postBodyContentType,
+) => {
   const oAuthSession = new OAuth(
-    undefined,
-    undefined,
+    config.firstLegUri,
+    config.thirdLegUri,
     config.clientKey,
     config.clientSecret,
     config.oAuthVersion,
@@ -45,8 +54,12 @@ const doSignAndPost = (linkToOpen, accessToken, accessTokenSecret,
 
   return new Promise((resolve, reject) => {
     oAuthSession.post(
-      linkToOpen, accessToken, accessTokenSecret, postBody,
-      postBodyContentType, (error, responseData, result) => {
+      linkToOpen,
+      accessToken,
+      accessTokenSecret,
+      postBody,
+      postBodyContentType,
+      (error, responseData, result) => {
         if (result.statusCode < 200 || result.statusCode >= 300) {
           resolve(getStatusText(result.statusCode));
         } else if (error) {

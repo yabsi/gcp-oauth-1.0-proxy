@@ -34,8 +34,8 @@ describe('OAuth Sign Request', () => {
       const response = await doSignAndGet(fakeLink, fakeAccessToken, fakeAccessTokenSecret);
 
       expect(OAuth.OAuth).toBeCalledWith(
-        undefined,
-        undefined,
+        config.firstLegUri,
+        config.thirdLegUri,
         config.clientKey,
         config.clientSecret,
         config.oAuthVersion,
@@ -131,8 +131,8 @@ describe('OAuth Sign Request', () => {
       doSignAndPost();
 
       expect(OAuth.OAuth).toBeCalledWith(
-        undefined,
-        undefined,
+        config.firstLegUri,
+        config.thirdLegUri,
         oauthConfig.clientKey,
         oauthConfig.clientSecret,
         oauthConfig.oAuthVersion,
