@@ -14,7 +14,10 @@
     "ApiUrl": {
       "Type": "String"
     },
-    "OAuthCustomHeaders": {
+    "ContentTypeHeader": {
+      "Type": "String"
+    },
+    "AcessControlAllowOriginHeader": {
       "Type": "String"
     },
     "AuthorizeCallbackUri": {
@@ -61,8 +64,11 @@
             "API_URL": {
               "Ref": "ApiUrl"
             },
-            "OAUTH_CUSTOM_HEADERS": {
-              "Ref": "OAuthCustomHeaders"
+            "CONTENT_TYPE_HEADER": {
+              "Ref": "ContentTypeHeader"
+            },
+            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -110,8 +116,11 @@
             "API_URL": {
               "Ref": "ApiUrl"
             },
-            "OAUTH_CUSTOM_HEADERS": {
-              "Ref": "OAuthCustomHeaders"
+            "CONTENT_TYPE_HEADER": {
+              "Ref": "ContentTypeHeader"
+            },
+            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -156,8 +165,11 @@
             "CLIENT_SECRET" : {
               "Ref" : "ClientSecret"
             },
-            "OAUTH_CUSTOM_HEADERS": {
-              "Ref": "OAuthCustomHeaders"
+            "CONTENT_TYPE_HEADER": {
+              "Ref": "ContentTypeHeader"
+            },
+            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -202,8 +214,11 @@
             "CLIENT_SECRET" : {
               "Ref" : "ClientSecret"
             },
-            "OAUTH_CUSTOM_HEADERS": {
-              "Ref": "OAuthCustomHeaders"
+            "CONTENT_TYPE_HEADER": {
+              "Ref": "ContentTypeHeader"
+            },
+            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
+              "Ref": "AcessControlAllowOriginHeader"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"

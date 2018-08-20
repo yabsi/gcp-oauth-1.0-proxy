@@ -3,8 +3,10 @@ const config = {
   oAuthSignatureMethod: 'HMAC-SHA1',
   oAuthNonceSize: undefined,
   oAuthCustomHeaders: {
-    Accept: process.env.OAUTH_CUSTOM_HEADERS,
+    Accept: process.env.CONTENT_TYPE_HEADER,
   },
+  contentTypeHeader: process.env.CONTENT_TYPE_HEADER,
+  accessControlAllowOriginHeader: process.env.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER,
   clientKey: process.env.CLIENT_KEY,
   clientSecret: process.env.CLIENT_SECRET,
   platformBaseUri: `${process.env.API_URL}/`,
