@@ -5,6 +5,7 @@ const config = {
   oAuthCustomHeaders: {
     Accept: process.env.OAUTH_CUSTOM_HEADERS,
   },
+  oAuthCustomContentType: process.env.OAUTH_CUSTOM_HEADERS,
   clientKey: process.env.CLIENT_KEY,
   clientSecret: process.env.CLIENT_SECRET,
   platformBaseUri: `${process.env.API_URL}/`,

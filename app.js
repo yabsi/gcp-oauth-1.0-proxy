@@ -137,7 +137,7 @@ exports.oAuthSignRequestPost = async (event) => {
     accessToken,
     accessTokenSecret,
     JSON.stringify(data),
-    process.env.OAUTH_CUSTOM_HEADERS,
+    config.oAuthCustomContentType,
   )
     .then(sendResponse)
     .catch(sendError);
