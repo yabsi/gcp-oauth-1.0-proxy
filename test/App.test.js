@@ -374,7 +374,7 @@ describe('Lambda handlers', () => {
       const accessToken = chance.string();
       const accessTokenSecret = chance.string();
       const data = chance.string();
-      const expectedContentType = config.oAuthCustomContentType;
+      const expectedContentType = config.contentTypeHeader;
       const fakeEvent = createFakeEvent({
         url,
         accessToken,
