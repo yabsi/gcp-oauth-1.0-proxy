@@ -291,11 +291,24 @@ describe('Lambda handlers', () => {
     });
 
     it('returns an error when an error occurs during the signing and get', async () => {
+      const OAuthSignRequest = require('../src/OAuthSignRequest');
+
+      const fakeError = {};
+      const numberOfErrorKeys = chance.natural({ min: 2, max: 5 });
+
+      for (let i = 0; i < numberOfErrorKeys; i += 1) {
+        fakeError[chance.string()] = chance.string();
+      }
+
+      OAuthSignRequest.doSignAndGet = jest.fn().mockRejectedValue(fakeError);
+
+      const { oAuthSignRequestGet } = require('../app');
+
       const url = chance.url();
       const accessToken = chance.string();
       const accessTokenSecret = chance.string();
 
-      const event = {
+      const fakeEvent = {
         queryStringParameters: {
           url,
           accessToken,
@@ -303,27 +316,18 @@ describe('Lambda handlers', () => {
         },
       };
 
-      const OAuthSignRequest = require('../src/OAuthSignRequest');
+      const returnedError = await oAuthSignRequestGet(fakeEvent);
 
-      const fakeError = new Error(chance.sentence());
-
-      OAuthSignRequest.doSignAndGet = jest.fn().mockRejectedValue(fakeError);
-
-      const { oAuthSignRequestGet } = require('../app');
-
-      const error = await oAuthSignRequestGet(event);
-
-      expect(OAuthSignRequest.doSignAndGet).toBeCalledWith(url, accessToken, accessTokenSecret);
-      const response = {
+      const fakeErrorResponse = {
         statusCode: 502,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
-        body: `${fakeError}`,
+        body: JSON.stringify(fakeError),
         isBase64Encoded: false,
       };
 
-      expect(error).toEqual(response);
+      expect(returnedError).toEqual(fakeErrorResponse);
     });
   });
 

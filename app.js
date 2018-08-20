@@ -88,32 +88,36 @@ exports.thirdLegHandler = (event, context, callback) => {
   oAuthSession.getOAuthAccessToken(requestToken, requestTokenSecret, verifier, responseCallback);
 };
 
+const sendResponse = responseData => ({
+  statusCode: responseData.status,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
+  body: JSON.stringify(responseData.body ? responseData.body : responseData),
+  isBase64Encoded: false,
+});
+
+const sendError = error => ({
+  statusCode: 502,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
+  body: JSON.stringify(error),
+  isBase64Encoded: false,
+});
+
 exports.oAuthSignRequestGet = async (event) => {
-  const receivedResponse = JSON.parse(JSON.stringify(event));
+  const receivedData = JSON.parse(JSON.stringify(event));
 
   const {
     url,
     accessToken,
     accessTokenSecret,
-  } = receivedResponse.queryStringParameters;
+  } = receivedData.queryStringParameters;
 
   const response = await doSignAndGet(url, accessToken, accessTokenSecret)
-    .then(responseData => ({
-      statusCode: responseData.status,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(responseData),
-      isBase64Encoded: false,
-    }))
-    .catch(error => ({
-      statusCode: 502,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: `${error}`,
-      isBase64Encoded: false,
-    }));
+    .then(sendResponse)
+    .catch(sendError);
 
   return response;
 };
@@ -135,23 +139,8 @@ exports.oAuthSignRequestPost = async (event) => {
     JSON.stringify(data),
     process.env.OAUTH_CUSTOM_HEADERS,
   )
-    .then(responseData => ({
-      statusCode: responseData.status,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        location: responseData.headers.location,
-      },
-      body: JSON.stringify(responseData.body),
-      isBase64Encoded: false,
-    }))
-    .catch(error => ({
-      statusCode: 502,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(error),
-      isBase64Encoded: false,
-    }));
+    .then(sendResponse)
+    .catch(sendError);
 
   return response;
 };
