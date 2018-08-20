@@ -6,7 +6,7 @@ describe('Lambda handlers', () => {
   });
 
   describe('OAuth First Leg Handler', () => {
-    it('is a function', () => {
+    it('should be a function', () => {
       const { firstLegHandler } = require('../app');
 
       expect(firstLegHandler).toEqual(expect.any(Function));
@@ -147,7 +147,7 @@ describe('Lambda handlers', () => {
       }),
     });
 
-    it('is a function', () => {
+    it('should be a function', () => {
       const { thirdLegHandler } = require('../app');
 
       expect(thirdLegHandler).toEqual(expect.any(Function));
@@ -351,7 +351,7 @@ describe('Lambda handlers', () => {
       ({ oAuthSignRequestPost } = require('../app'));
     });
 
-    it('is a function', () => {
+    it('should be a function', () => {
       expect(typeof oAuthSignRequestPost).toEqual('function');
     });
 
