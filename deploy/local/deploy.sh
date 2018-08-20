@@ -33,8 +33,7 @@ aws cloudformation deploy --stack-name $stackName \
         ClientSecret=$CLIENT_SECRET \
         BucketName=$bucketName \
         ApiUrl=$API_URL \
-        ContentTypeHeader=$CONTENT_TYPE_HEADER \
-        AccessControlAllowOriginHeader=$ACCESS_CONTROL_ALLOW_ORIGIN_HEADER \
+        OAuthCustomHeaders=$OAUTH_CUSTOM_HEADERS \
         AuthorizeCallbackUri=$AUTHORIZE_CALLBACK_URI \
     --no-fail-on-empty-changeset \
 

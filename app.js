@@ -30,7 +30,7 @@ exports.firstLegHandler = (event, context, callback) => {
     const response = {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(body),
       isBase64Encoded: false,
@@ -76,7 +76,7 @@ exports.thirdLegHandler = (event, context, callback) => {
     const response = {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(body),
       isBase64Encoded: false,
@@ -91,7 +91,7 @@ exports.thirdLegHandler = (event, context, callback) => {
 const sendResponse = responseData => ({
   statusCode: responseData.status,
   headers: {
-    'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+    'Access-Control-Allow-Origin': '*',
   },
   body: JSON.stringify(responseData.body ? responseData.body : responseData),
   isBase64Encoded: false,
@@ -100,7 +100,7 @@ const sendResponse = responseData => ({
 const sendError = error => ({
   statusCode: 502,
   headers: {
-    'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+    'Access-Control-Allow-Origin': '*',
   },
   body: JSON.stringify(error),
   isBase64Encoded: false,
@@ -137,7 +137,7 @@ exports.oAuthSignRequestPost = async (event) => {
     accessToken,
     accessTokenSecret,
     JSON.stringify(data),
-    config.contentTypeHeader,
+    process.env.OAUTH_CUSTOM_HEADERS,
   )
     .then(sendResponse)
     .catch(sendError);

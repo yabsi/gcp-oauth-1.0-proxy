@@ -34,8 +34,7 @@ aws cloudformation deploy --stack-name $stackName \
         ClientSecret=$bamboo_CLIENT_SECRET \
         BucketName=$bucketName \
         ApiUrl=$bamboo_API_URL \
-        ContentTypeHeader=$bamboo_CONTENT_TYPE_HEADER \
-        AccessControlAllowOriginHeader=$bamboo_ACCESS_CONTROL_ALLOW_ORIGIN_HEADER \
+        OAuthCustomHeaders=$bamboo_OAUTH_CUSTOM_HEADERS \
         AuthorizeCallbackUri=$bamboo_AUTHORIZE_CALLBACK_URI \
     --no-fail-on-empty-changeset \
 

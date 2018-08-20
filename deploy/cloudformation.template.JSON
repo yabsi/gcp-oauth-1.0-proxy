@@ -14,10 +14,7 @@
     "ApiUrl": {
       "Type": "String"
     },
-    "ContentTypeHeader": {
-      "Type": "String"
-    },
-    "AcessControlAllowOriginHeader": {
+    "OAuthCustomHeaders": {
       "Type": "String"
     },
     "AuthorizeCallbackUri": {
@@ -64,11 +61,8 @@
             "API_URL": {
               "Ref": "ApiUrl"
             },
-            "CONTENT_TYPE_HEADER": {
-              "Ref": "ContentTypeHeader"
-            },
-            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AcessControlAllowOriginHeader"
+            "OAUTH_CUSTOM_HEADERS": {
+              "Ref": "OAuthCustomHeaders"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -116,11 +110,8 @@
             "API_URL": {
               "Ref": "ApiUrl"
             },
-            "CONTENT_TYPE_HEADER": {
-              "Ref": "ContentTypeHeader"
-            },
-            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AcessControlAllowOriginHeader"
+            "OAUTH_CUSTOM_HEADERS": {
+              "Ref": "OAuthCustomHeaders"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -165,11 +156,8 @@
             "CLIENT_SECRET" : {
               "Ref" : "ClientSecret"
             },
-            "CONTENT_TYPE_HEADER": {
-              "Ref": "ContentTypeHeader"
-            },
-            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AcessControlAllowOriginHeader"
+            "OAUTH_CUSTOM_HEADERS": {
+              "Ref": "OAuthCustomHeaders"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"
@@ -214,11 +202,8 @@
             "CLIENT_SECRET" : {
               "Ref" : "ClientSecret"
             },
-            "CONTENT_TYPE_HEADER": {
-              "Ref": "ContentTypeHeader"
-            },
-            "ACCESS_CONTROL_ALLOW_ORIGIN_HEADER": {
-              "Ref": "AcessControlAllowOriginHeader"
+            "OAUTH_CUSTOM_HEADERS": {
+              "Ref": "OAuthCustomHeaders"
             },
             "AUTHORIZE_CALLBACK_URI": {
               "Ref": "AuthorizeCallbackUri"

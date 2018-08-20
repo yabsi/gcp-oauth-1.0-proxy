@@ -90,7 +90,7 @@ describe('Lambda handlers', () => {
       const response = {
         statusCode: 200,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({
           requestToken: fakeRequestToken,
@@ -128,7 +128,7 @@ describe('Lambda handlers', () => {
       const response = {
         statusCode: 200,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(fakeError),
         isBase64Encoded: false,
@@ -200,7 +200,7 @@ describe('Lambda handlers', () => {
       const expectedResponse = {
         statusCode: 200,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(fakeError),
         isBase64Encoded: false,
@@ -233,7 +233,7 @@ describe('Lambda handlers', () => {
       const expectedResponse = {
         statusCode: 200,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({
           accessToken: fakeAccessToken,
@@ -281,7 +281,7 @@ describe('Lambda handlers', () => {
       const response = {
         statusCode: fakeResponseData.status,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(fakeResponseData),
         isBase64Encoded: false,
@@ -321,7 +321,7 @@ describe('Lambda handlers', () => {
       const fakeErrorResponse = {
         statusCode: 502,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(fakeError),
         isBase64Encoded: false,
@@ -374,7 +374,7 @@ describe('Lambda handlers', () => {
       const accessToken = chance.string();
       const accessTokenSecret = chance.string();
       const data = chance.string();
-      const expectedContentType = config.contentTypeHeader;
+      const expectedContentType = process.env.OAUTH_CUSTOM_HEADERS;
       const fakeEvent = createFakeEvent({
         url,
         accessToken,
@@ -395,11 +395,12 @@ describe('Lambda handlers', () => {
       const OAuthSignRequest = require('../src/OAuthSignRequest');
       const status = 200;
       const fakeResponseData = JSON.stringify({ body: chance.string() });
-
+      const fakeLocation = chance.string();
       const fakeResponse = {
         status,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
+          location: fakeLocation,
         },
         body: fakeResponseData,
         isBase64Encoded: false,
@@ -410,11 +411,11 @@ describe('Lambda handlers', () => {
       ({ oAuthSignRequestPost } = require('../app'));
 
       const response = await oAuthSignRequestPost(createFakeEvent());
-
       const expectedResponse = {
         statusCode: status,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
+          location: response.headers.location,
         },
         body: JSON.stringify(fakeResponseData),
         isBase64Encoded: false,
@@ -438,7 +439,7 @@ describe('Lambda handlers', () => {
       const fakeErrorResponse = {
         statusCode: 502,
         headers: {
-          'Access-Control-Allow-Origin': config.accessControlAllowOriginHeader,
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(fakeError),
         isBase64Encoded: false,
