@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A proxy for OAuth 1.0a requests using AWS Lambdas.",
   "author": "sourceallies",
-  "license": "Apache-2.0",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": "github:sourceallies/aws-oauth-1.0-proxy",
   "main": "app.js",
   "engines": {

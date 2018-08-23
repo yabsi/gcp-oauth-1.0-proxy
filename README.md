@@ -19,18 +19,20 @@ Set up environment variables for deployment:
 
 See [Environment Configuration](../../wiki/Environment-Configuration) for more details.
 
-## Deploy Steps
+## Build and Deploy Steps
 
-The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed locally or using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables.
+The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables. For local deployments, run the deploy scripts in `deploy/local` instead.
 
-Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway and Lambdas.
+Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway, Cloudformation and Lambdas.
+
+A more detailed explanation of what the deploy script is doing is supplied in the wiki under [Deploy Steps](../../wiki/Deploy-Steps).
 
 1. Run `./build/build.sh`
     - Installs dependencies
     - Runs tests
     - Webpacks the project
-2. Create a `.zip` file containing the source code to be deployed
-3. Run `./deploy/deploy.sh`
+    - Zips deploy files into artifact.zip
+2. Run `./deploy/deploy.sh`
     - Removes the old S3 bucket
     - Creates a new S3 bucket
     - Adds the zipped code to the S3 bucket
@@ -134,7 +136,7 @@ Cache-Control: no-cache
 }
 ```
 
-A successful response will have a status code of 200. The rest of the response will be what you expect from the url that is being proxied.
+Response will be the same as what you expect from the url that is being proxied.
 
 If there is an error connecting to the url that is being proxied, the response status code will be 502.
 
@@ -163,4 +165,4 @@ This project is licensed under the terms of the [Apache 2.0](LICENSE.md) license
 ## About Source Allies
 Source Allies is an IT Consultancy based in Urbandale, Iowa. Learn more [here](https://www.sourceallies.com/what-we-do/) and get in touch with us [here](https://www.sourceallies.com/contact-us/).
 
-![Source Allies Logo](320.png)
+![Source Allies Logo](assets/sai-logo.png)

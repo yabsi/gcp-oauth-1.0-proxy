@@ -1,13 +1,12 @@
 #!/bin/bash
 set -e
 
-# Look up the ARN for the environment we are deploying into
-adminARN="$(printenv bamboo_SAI_${bamboo_deploy_environment}_ADMIN_ARN )"
-echo "Assuming role: $adminARN"
-source /bin/assumeRole $adminARN
+set -o allexport
+source ../../.env
+set +o allexport
 
 echo "Removing the S3 bucket..."
-bucketName="${bamboo_BUCKET_NAME}-${bamboo_deploy_environment,,}"
+bucketName=$BUCKET_NAME
 aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
@@ -16,13 +15,13 @@ aws s3 mb s3://$bucketName
 aws s3api wait bucket-exists --bucket $bucketName
 
 echo "Putting the zipped code into the S3 bucket..."
-aws s3api put-object --bucket $bucketName --key artifact.zip --body ../artifact.zip
+aws s3api put-object --bucket $bucketName --key artifact.zip --body ../../artifact.zip
 
 echo "Creating the lambdas..."
-stackName=$bamboo_STACK_NAME
-release=$bamboo_deploy_release
+stackName=$STACK_NAME
+release="1.0.0"
 aws cloudformation deploy --stack-name $stackName \
-    --template-file cloudformation.template.JSON \
+    --template-file ../cloudformation.template.JSON \
     --tags \
         Customer=SAI \
         Name=AgPoint \
@@ -30,12 +29,12 @@ aws cloudformation deploy --stack-name $stackName \
         ContactEmail=agpoint@sourceallies.com \
         Release=$release \
     --parameter-overrides \
-        ClientKey=$bamboo_CLIENT_KEY \
-        ClientSecret=$bamboo_CLIENT_SECRET \
+        ClientKey=$CLIENT_KEY \
+        ClientSecret=$CLIENT_SECRET \
         BucketName=$bucketName \
-        ApiUrl=$bamboo_API_URL \
-        OAuthCustomHeaders=$bamboo_OAUTH_CUSTOM_HEADERS \
-        AuthorizeCallbackUri=$bamboo_AUTHORIZE_CALLBACK_URI \
+        ApiUrl=$API_URL \
+        OAuthCustomHeaders=$OAUTH_CUSTOM_HEADERS \
+        AuthorizeCallbackUri=$AUTHORIZE_CALLBACK_URI \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."

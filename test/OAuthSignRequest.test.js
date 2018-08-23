@@ -21,7 +21,6 @@ describe('OAuth Sign Request', () => {
 
       const fakeResponseData = chance.string();
 
-      /* eslint-disable global-require */
       const OAuth = require('oauth');
 
       OAuth.OAuth = jest.fn().mockImplementation(() => ({
@@ -35,8 +34,8 @@ describe('OAuth Sign Request', () => {
       const response = await doSignAndGet(fakeLink, fakeAccessToken, fakeAccessTokenSecret);
 
       expect(OAuth.OAuth).toBeCalledWith(
-        undefined,
-        undefined,
+        config.firstLegUri,
+        config.thirdLegUri,
         config.clientKey,
         config.clientSecret,
         config.oAuthVersion,
@@ -132,8 +131,8 @@ describe('OAuth Sign Request', () => {
       doSignAndPost();
 
       expect(OAuth.OAuth).toBeCalledWith(
-        undefined,
-        undefined,
+        config.firstLegUri,
+        config.thirdLegUri,
         oauthConfig.clientKey,
         oauthConfig.clientSecret,
         oauthConfig.oAuthVersion,
@@ -244,8 +243,7 @@ describe('OAuth Sign Request', () => {
 
       mockOAuth(fakeResponseData);
 
-      /* eslint-disable prefer-destructuring */
-      const doSignAndPost = require('../src/OAuthSignRequest').doSignAndPost;
+      const { doSignAndPost } = require('../src/OAuthSignRequest');
 
       const responseData = await doSignAndPost();
 

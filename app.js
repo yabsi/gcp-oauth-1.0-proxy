@@ -2,15 +2,12 @@ const { OAuth } = require('oauth');
 const config = require('./config');
 const { doSignAndGet } = require('./src/OAuthSignRequest');
 const { doSignAndPost } = require('./src/OAuthSignRequest');
-const { getTemporaryOAuthTokens, getTemporaryUserTokens } = require('./src/OAuthFirstLeg');
-const { getStatusText } = require('./src/HttpResponses');
 require('dotenv').config();
 
 exports.firstLegHandler = (event, context, callback) => {
-  let tokens;
   const tokenlessOauthSession = new OAuth(
-    undefined,
-    undefined,
+    config.firstLegUri,
+    config.thirdLegUri,
     config.clientKey,
     config.clientSecret,
     config.oAuthVersion,
@@ -20,64 +17,29 @@ exports.firstLegHandler = (event, context, callback) => {
     config.oAuthCustomHeaders,
   );
 
-  tokenlessOauthSession.get(config.platformBaseUri, null, null, (error, responseData, result) => {
-    if (result.statusCode < 200 || result.statusCode >= 300) {
-      const response = {
-        statusCode: 200,
-        headers: {
-          success: 'HttpError',
-        },
-        body: JSON.stringify(getStatusText(result.statusCode)),
-        isBase64Encoded: false,
-      };
+  const responseCallback = (error, requestToken, requestTokenSecret) => {
+    let body = {
+      requestToken,
+      requestTokenSecret,
+    };
 
-      callback(null, response);
-    }
-    const temporaryTokens = getTemporaryOAuthTokens(error, responseData, result);
-
-    if (typeof temporaryTokens === 'string') {
-      const response = {
-        statusCode: 200,
-        headers: {
-          success: 'HttpError',
-        },
-        body: JSON.stringify(temporaryTokens),
-        isBase64Encoded: false,
-      };
-
-      callback(null, response);
+    if (error) {
+      body = error;
     }
 
-    Object.keys(temporaryTokens).forEach((key) => {
-      config[key] = temporaryTokens[key];
-    });
+    const response = {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify(body),
+      isBase64Encoded: false,
+    };
 
-    const userTokenOAuthSession = new OAuth(
-      config.oauthRequestTokenUri,
-      config.oauthAccessTokenUri,
-      config.clientKey,
-      config.clientSecret,
-      config.oAuthVersion,
-      config.authorizeCallbackUri,
-      config.oAuthSignatureMethod,
-      config.oAuthNonceSize,
-      config.oAuthCustomHeaders,
-    );
+    callback(null, response);
+  };
 
-    userTokenOAuthSession.getOAuthRequestToken((userTokenError, token, secret) => {
-      tokens = getTemporaryUserTokens(userTokenError, token, secret);
-      const response = {
-        statusCode: 200,
-        headers: {
-          success: 'true',
-        },
-        body: JSON.stringify(tokens),
-        isBase64Encoded: false,
-      };
-
-      callback(null, response);
-    });
-  });
+  tokenlessOauthSession.getOAuthRequestToken(responseCallback);
 };
 
 exports.thirdLegHandler = (event, context, callback) => {
@@ -90,8 +52,8 @@ exports.thirdLegHandler = (event, context, callback) => {
   } = receivedBody;
 
   const oAuthSession = new OAuth(
-    `${process.env.API_URL}/oauth/request_token`,
-    `${process.env.API_URL}/oauth/access_token`,
+    config.firstLegUri,
+    config.thirdLegUri,
     config.clientKey,
     config.clientSecret,
     config.oAuthVersion,
@@ -111,45 +73,51 @@ exports.thirdLegHandler = (event, context, callback) => {
       body = error;
     }
 
-    callback(null, {
+    const response = {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(body),
       isBase64Encoded: false,
-    });
+    };
+
+    callback(null, response);
   };
 
   oAuthSession.getOAuthAccessToken(requestToken, requestTokenSecret, verifier, responseCallback);
 };
 
+const sendResponse = responseData => ({
+  statusCode: responseData.status,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
+  body: JSON.stringify(responseData.body ? responseData.body : responseData),
+  isBase64Encoded: false,
+});
+
+const sendError = error => ({
+  statusCode: 502,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
+  body: JSON.stringify(error),
+  isBase64Encoded: false,
+});
+
 exports.oAuthSignRequestGet = async (event) => {
-  const receivedResponse = JSON.parse(JSON.stringify(event));
+  const receivedData = JSON.parse(JSON.stringify(event));
 
   const {
     url,
     accessToken,
     accessTokenSecret,
-  } = receivedResponse.queryStringParameters;
+  } = receivedData.queryStringParameters;
 
   const response = await doSignAndGet(url, accessToken, accessTokenSecret)
-    .then(responseData => ({
-      statusCode: responseData.status,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(responseData),
-      isBase64Encoded: false,
-    }))
-    .catch(error => ({
-      statusCode: 502,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: `${error}`,
-      isBase64Encoded: false,
-    }));
+    .then(sendResponse)
+    .catch(sendError);
 
   return response;
 };
@@ -164,24 +132,15 @@ exports.oAuthSignRequestPost = async (event) => {
     data,
   } = receivedBody;
 
-  const response = await doSignAndPost(url, accessToken, accessTokenSecret, JSON.stringify(data),
-    process.env.OAUTH_CUSTOM_HEADERS)
-    .then(responseData => ({
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        location: responseData.headers.location,
-      },
-      body: JSON.stringify(responseData.body),
-      isBase64Encoded: false,
-    }))
-    .catch(error => ({
-      statusCode: 502,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(error),
-      isBase64Encoded: false,
-    }));
+  const response = await doSignAndPost(
+    url,
+    accessToken,
+    accessTokenSecret,
+    JSON.stringify(data),
+    config.oAuthCustomContentType,
+  )
+    .then(sendResponse)
+    .catch(sendError);
+
   return response;
 };
