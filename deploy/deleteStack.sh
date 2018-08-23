@@ -7,7 +7,8 @@ deployEnvironment=$bamboo_deploy_environment
 # Extract environment variables
 stackName=$bamboo_STACK_NAME
 
-# Look up the ARN for the environment we are deploying into
+# Look up the IAM admin role ARN for the environment we are deploying into
+# Use an environment variable for your ADMIN_ARN
 adminARN="$(printenv bamboo_SAI_${deployEnvironment}_ADMIN_ARN )"
 echo "Assuming role: $adminARN"
 source /bin/assumeRole $adminARN
