@@ -1,13 +1,25 @@
 #!/bin/bash
 set -e
 
+# Extract bamboo variables
+deployEnvironment=$bamboo_deploy_environment # DEV, QUAL, or PROD
+releaseVersion=$bamboo_deploy_release
+
+# Extract environment variables
+bucketName="${bamboo_BUCKET_NAME}-${deployEnvironment,,}"
+stackName=$bamboo_STACK_NAME
+clientKey=$bamboo_CLIENT_KEY
+clientSecret=$bamboo_CLIENT_SECRET
+apiUrl=$bamboo_API_URL
+authorizeCallbackUri=$bamboo_AUTHORIZE_CALLBACK_URI
+oAuthCustomHeaders=$bamboo_OAUTH_CUSTOM_HEADERS
+
 # Look up the ARN for the environment we are deploying into
-adminARN="$(printenv bamboo_SAI_${bamboo_deploy_environment}_ADMIN_ARN )"
+adminARN="$(printenv bamboo_SAI_${deployEnvironment}_ADMIN_ARN )"
 echo "Assuming role: $adminARN"
 source /bin/assumeRole $adminARN
 
 echo "Removing the S3 bucket..."
-bucketName="${bamboo_BUCKET_NAME}-${bamboo_deploy_environment,,}"
 aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
@@ -19,8 +31,6 @@ echo "Putting the zipped code into the S3 bucket..."
 aws s3api put-object --bucket $bucketName --key artifact.zip --body ../artifact.zip
 
 echo "Creating the lambdas..."
-stackName=$bamboo_STACK_NAME
-release=$bamboo_deploy_release
 aws cloudformation deploy --stack-name $stackName \
     --template-file cloudformation.template.JSON \
     --tags \
@@ -28,14 +38,14 @@ aws cloudformation deploy --stack-name $stackName \
         Name=AgPoint \
         Contact=AgPoint \
         ContactEmail=agpoint@sourceallies.com \
-        Release=$release \
+        Release=$releaseVersion \
     --parameter-overrides \
-        ClientKey=$bamboo_CLIENT_KEY \
-        ClientSecret=$bamboo_CLIENT_SECRET \
+        ClientKey=$clientKey \
+        ClientSecret=$clientSecret \
         BucketName=$bucketName \
-        ApiUrl=$bamboo_API_URL \
-        OAuthCustomHeaders=$bamboo_OAUTH_CUSTOM_HEADERS \
-        AuthorizeCallbackUri=$bamboo_AUTHORIZE_CALLBACK_URI \
+        ApiUrl=$apiUrl \
+        AuthorizeCallbackUri=$authorizeCallbackUri \
+        OAuthCustomHeaders=$oAuthCustomHeaders \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."

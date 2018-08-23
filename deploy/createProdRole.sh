@@ -1,8 +1,14 @@
 #!/bin/bash
 set -e
 
+# Extract bamboo variables
+deployEnvironment=$bamboo_deploy_environment # DEV, QUAL, or PROD
+
+# Extract environment variables
+awsUserId=$bamboo_AWS_USER_ID
+
 # Look up the ARN for the environment we are deploying into
-adminARN="$(printenv bamboo_SAI_${bamboo_deploy_environment}_ADMIN_ARN )"
+adminARN="$(printenv bamboo_SAI_${deployEnvironment}_ADMIN_ARN )"
 echo "Assuming role: $adminARN"
 source /bin/assumeRole $adminARN
 
@@ -16,6 +22,6 @@ aws iam create-policy --policy-name basic-lambda-execution-managed-policy \
 
 echo "Attaching Policy..."
 aws iam attach-role-policy --role-name basic-lambda-execution-role \
---policy-arn arn:aws:iam::$bamboo_AWS_USER_ID:policy/basic-lambda-execution-managed-policy \
+--policy-arn arn:aws:iam::$awsUserId:policy/basic-lambda-execution-managed-policy \
 
 echo "Successfully Created Role"
