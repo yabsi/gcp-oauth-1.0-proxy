@@ -6,7 +6,7 @@ source ../../.env
 set +o allexport
 
 echo "Removing the S3 bucket..."
-bucketName=$BUCKET_NAME
+bucketName="${BUCKET_NAME}-${DEPLOY_ENVIRONMENT,,}"
 aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
@@ -19,7 +19,6 @@ aws s3api put-object --bucket $bucketName --key artifact.zip --body ../../artifa
 
 echo "Creating the lambdas..."
 stackName=$STACK_NAME
-release="1.0.0"
 aws cloudformation deploy --stack-name $stackName \
     --template-file ../cloudformation.template.JSON \
     --tags \
@@ -27,7 +26,7 @@ aws cloudformation deploy --stack-name $stackName \
         Name=AgPoint \
         Contact=AgPoint \
         ContactEmail=agpoint@sourceallies.com \
-        Release=$release \
+        Release=$RELEASE_NUMBER \
     --parameter-overrides \
         ClientKey=$CLIENT_KEY \
         ClientSecret=$CLIENT_SECRET \
