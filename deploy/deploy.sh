@@ -2,7 +2,7 @@
 set -e
 
 # Extract bamboo variables
-deployEnvironment=$bamboo_deploy_environment # DEV, QUAL, or PROD
+deployEnvironment=$bamboo_deploy_environment
 releaseVersion=$bamboo_deploy_release
 
 # Extract environment variables
