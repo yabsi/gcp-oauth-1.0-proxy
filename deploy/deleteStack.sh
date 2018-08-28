@@ -1,19 +1,15 @@
 #!/bin/bash
 set -e
 
-# Extract bamboo variables
-deployEnvironment=$bamboo_deploy_environment
+echo "Loading environment variables from .env file..."
+set -o allexport
+source .env
+set +o allexport
 
-# Extract environment variables
-stackName=$bamboo_STACK_NAME
-
-# Look up the IAM admin role ARN for the environment we are deploying into
-# Use an environment variable for your ADMIN_ARN
-adminARN="$(printenv bamboo_SAI_${deployEnvironment}_ADMIN_ARN )"
-echo "Assuming role: $adminARN"
-source /bin/assumeRole $adminARN
+echo "Assuming IAM Admin Role..."
+source /bin/assumeRole $ADMIN_ARN
 
 echo "Deleting Stack..."
-aws cloudformation delete-stack --stack-name $stackName
+aws cloudformation delete-stack --stack-name $STACK_NAME
 
 echo "Successfully Deleted Stack"

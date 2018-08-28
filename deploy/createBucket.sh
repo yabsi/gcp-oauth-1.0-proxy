@@ -1,19 +1,16 @@
 #!/bin/bash
 set -e
 
-# Extract bamboo variables
-deployEnvironment=$bamboo_deploy_environment
+echo "Loading environment variables from .env file..."
+set -o allexport
+source .env
+set +o allexport
 
-# Extract environment variables
-bucketName="${bamboo_BUCKET_NAME}-${deployEnvironment,,}"
-
-# Look up the IAM admin role ARN for the environment we are deploying into
-# Use an environment variable for your ADMIN_ARN
-adminARN="$(printenv bamboo_SAI_${deployEnvironment}_ADMIN_ARN )"
-echo "Assuming role: $adminARN"
-source /bin/assumeRole $adminARN
+echo "Assuming IAM Admin Role..."
+source /bin/assumeRole $ADMIN_ARN
 
 echo "Creating Bucket..."
+bucketName="${BUCKET_NAME}-${DEPLOY_ENVIRONMENT,,}"
 aws s3 mb s3://$bucketName
 
 echo "Successfully Created Bucket"

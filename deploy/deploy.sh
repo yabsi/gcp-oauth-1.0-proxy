@@ -1,26 +1,16 @@
 #!/bin/bash
 set -e
 
-# Extract bamboo variables
-deployEnvironment=$bamboo_deploy_environment
-releaseVersion=$bamboo_deploy_release
+echo "Loading environment variables from .env file..."
+set -o allexport
+source .env
+set +o allexport
 
-# Extract environment variables
-bucketName="${bamboo_BUCKET_NAME}-${deployEnvironment,,}"
-stackName=$bamboo_STACK_NAME
-clientKey=$bamboo_CLIENT_KEY
-clientSecret=$bamboo_CLIENT_SECRET
-apiUrl=$bamboo_API_URL
-authorizeCallbackUri=$bamboo_AUTHORIZE_CALLBACK_URI
-oAuthCustomHeaders=$bamboo_OAUTH_CUSTOM_HEADERS
-
-# Look up the IAM admin role ARN for the environment we are deploying into
-# Use an environment variable for your ADMIN_ARN
-adminARN="$(printenv bamboo_SAI_${deployEnvironment}_ADMIN_ARN )"
-echo "Assuming role: $adminARN"
-source /bin/assumeRole $adminARN
+echo "Assuming IAM Admin Role..."
+source /bin/assumeRole $ADMIN_ARN
 
 echo "Removing the S3 bucket..."
+bucketName="${BUCKET_NAME}-${DEPLOY_ENVIRONMENT,,}"
 aws s3 rb s3://$bucketName --force
 aws s3api wait bucket-not-exists --bucket $bucketName
 
@@ -29,24 +19,25 @@ aws s3 mb s3://$bucketName
 aws s3api wait bucket-exists --bucket $bucketName
 
 echo "Putting the zipped code into the S3 bucket..."
-aws s3api put-object --bucket $bucketName --key artifact.zip --body ../artifact.zip
+aws s3api put-object --bucket $bucketName --key artifact.zip --body artifact.zip
 
 echo "Creating the lambdas..."
+stackName=$STACK_NAME
 aws cloudformation deploy --stack-name $stackName \
-    --template-file cloudformation.template.JSON \
+    --template-file deploy/cloudformation.template.JSON \
     --tags \
         Customer=SAI \
         Name=AgPoint \
         Contact=AgPoint \
         ContactEmail=agpoint@sourceallies.com \
-        Release=$releaseVersion \
+        Release=$RELEASE_NUMBER \
     --parameter-overrides \
-        ClientKey=$clientKey \
-        ClientSecret=$clientSecret \
+        ClientKey=$CLIENT_KEY \
+        ClientSecret=$CLIENT_SECRET \
         BucketName=$bucketName \
-        ApiUrl=$apiUrl \
-        AuthorizeCallbackUri=$authorizeCallbackUri \
-        OAuthCustomHeaders=$oAuthCustomHeaders \
+        ApiUrl=$API_URL \
+        OAuthCustomHeaders=$OAUTH_CUSTOM_HEADERS \
+        AuthorizeCallbackUri=$AUTHORIZE_CALLBACK_URI \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."
