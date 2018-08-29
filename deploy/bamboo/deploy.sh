@@ -6,7 +6,7 @@ DEPLOY_ENVIRONMENT=$bamboo_deploy_environment
 RELEASE_NUMBER=$bamboo_deploy_release
 
 # Extract environment variables
-BUCKET_NAME="${bamboo_BUCKET_NAME}-${DEPLOY_ENVIRONMENT,,}"
+BUCKET_NAME=$bamboo_BUCKET_NAME
 STACK_NAME=$bamboo_STACK_NAME
 CLIENT_KEY=$bamboo_CLIENT_KEY
 CLIENT_SECRET=$bamboo_CLIENT_SECRET

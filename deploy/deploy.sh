@@ -25,8 +25,7 @@ echo "Putting the zipped code into the S3 bucket..."
 aws s3api put-object --bucket $bucketName --key artifact.zip --body artifact.zip
 
 echo "Creating the lambdas..."
-stackName=$STACK_NAME
-aws cloudformation deploy --stack-name $stackName \
+aws cloudformation deploy --stack-name $STACK_NAME \
     --template-file deploy/cloudformation.template.JSON \
     --tags \
         Customer=SAI \
@@ -44,6 +43,6 @@ aws cloudformation deploy --stack-name $stackName \
     --no-fail-on-empty-changeset \
 
 echo "Describing stack events..."
-aws cloudformation describe-stack-events --stack-name $stackName
+aws cloudformation describe-stack-events --stack-name $STACK_NAME
 
 echo "Deploy successful"
