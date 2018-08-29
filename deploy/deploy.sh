@@ -25,10 +25,10 @@ echo "Creating the lambdas..."
 aws cloudformation deploy --stack-name $STACK_NAME \
     --template-file deploy/cloudformation.template.JSON \
     --tags \
-        Customer=SAI \
-        Name=AgPoint \
-        Contact=AgPoint \
-        ContactEmail=agpoint@sourceallies.com \
+        Customer=$CUSTOMER \
+        Name=$NAME \
+        Contact=$CONTACT \
+        ContactEmail=$CONTACT_EMAIL \
         Release=$RELEASE_NUMBER \
     --parameter-overrides \
         ClientKey=$CLIENT_KEY \
