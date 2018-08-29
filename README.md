@@ -10,33 +10,39 @@ This project serves as a proxy for OAuth 1.0a requests. We leverage Lambdas crea
 2. cd to the git repository
 3. `npm install`
 
-## Environment Configuration
+## Build and Deploy
 
-Set up environment variables for deployment:
+The deploy scripts are configured to read environment variables from a `.env` file. Thus, a `.env` file should be created based on `.env.example`. See [Environment Configuration](../../wiki/Environment-Configuration) for more details about environment variables and how they are used.
 
-- For local deployments, create an `.env` file based on .env.example
-- For deployment via CI, add environment variables to your deployment plan
+We've also included example scripts for deployment via CI in `deploy/bamboo`. These scripts read environment variables from the CI and write them to a `.env` file. Then they run the general deployment scripts.
 
-See [Environment Configuration](../../wiki/Environment-Configuration) for more details.
+Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the Lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway, Cloudformation and Lambdas.
 
-## Build and Deploy Steps
+A more detailed explanation of what the deploy script is doing can be found in the wiki under [Deploy Steps](../../wiki/Deploy-Steps).
 
-The build and deploy scripts in the project are written for Bamboo CI. Thus, for projects deployed using a different CI, the scripts should be treated as a template and should be updated to match your usage of environment variables. For local deployments, run the deploy scripts in `deploy/local` instead.
+#### Build
 
-Note that the deploy script will fail if there are no AWS keys with valid IAM permissions. An [example policy](/deploy/policy.JSON) has been included for the lambdas. For your CI service (in our case, bamboo), Admin permissions must be granted for API Gateway, Cloudformation and Lambdas.
+```
+./build/build.sh
+```
 
-A more detailed explanation of what the deploy script is doing is supplied in the wiki under [Deploy Steps](../../wiki/Deploy-Steps).
+1. Installs dependencies
+2. Runs tests
+3. Webpacks the project
+4. Zips deploy files into artifact.zip
 
-1. Run `./build/build.sh`
-    - Installs dependencies
-    - Runs tests
-    - Webpacks the project
-    - Zips deploy files into artifact.zip
-2. Run `./deploy/deploy.sh`
-    - Removes the old S3 bucket
-    - Creates a new S3 bucket
-    - Adds the zipped code to the S3 bucket
-    - Creates the lambdas
+#### Deploy
+
+```
+./deploy/deploy.sh
+```
+
+1. Load environment variables from `.env`
+2. Assume IAM admin role
+3. Removes the old S3 bucket
+4. Creates a new S3 bucket
+5. Adds the zipped code to the S3 bucket
+6. Creates the lambdas
 
 ## Endpoints
 
