@@ -166,7 +166,9 @@ Lint repo using [ES Lint](https://github.com/eslint/eslint):
 Fork the repo and create a pull request describing your contribution.
 
 ## License
-This project is licensed under the terms of the [Apache 2.0](LICENSE.md) license.
+This project is licensed under the terms of the [Apache 2.0](APACHE_LICENSE.md) license or alternatively under the terms of the [MIT](MIT_LICENSE.md).
+You may use aws-oauth-1.0-proxy according to either of these licenses as is most appropriate
+for your project on a case-by-case basis..
 
 ## About Source Allies
 Source Allies is an IT Consultancy based in Urbandale, Iowa. Learn more [here](https://www.sourceallies.com/what-we-do/) and get in touch with us [here](https://www.sourceallies.com/contact-us/).
